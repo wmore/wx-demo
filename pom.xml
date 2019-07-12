@@ -44,6 +44,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <!-- <scope>provided</scope>-->
+        </dependency>
+
         <!-- alibaba data source 相关jar包-->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -70,6 +76,24 @@
             <version>3.4.0</version>
         </dependency>
 
+        <!-- servlet 依赖包 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JSTL (JSP standard Tag Library) JSP 标准标签库 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.4.1</version>
+        </dependency>
 
     </dependencies>
 

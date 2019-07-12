@@ -1,11 +1,15 @@
 package com.zhouzhi.wangyue.util;
 
 
+import com.zhouzhi.wangyue.util.SHA1;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.Arrays;
 
 public class WeiXinUtil {
 
-    private static final String token = "mytoken123456";//自己在微信测试平台设置的token
+    @Value("${com.constant.weixin.token}")
+    private static String token;//自己在微信测试平台设置的token
 
     /**
      *
