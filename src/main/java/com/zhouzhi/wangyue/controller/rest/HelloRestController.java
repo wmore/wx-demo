@@ -1,4 +1,4 @@
-package com.zhouzhi.wangyue.controller;
+package com.zhouzhi.wangyue.controller.rest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @EnableAutoConfiguration
-public class HelloController {
+public class HelloRestController {
 
     @RequestMapping("/hello")
     public String hello () {

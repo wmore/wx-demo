@@ -31,9 +31,22 @@ public class QrTicket {
         this.url = url;
     }
 
+    public QrTicket() {
+    }
+
     public QrTicket(int expireSeconds, String ticket, String url) {
         this.expireSeconds = expireSeconds;
         this.ticket = ticket;
         this.url = url;
+    }
+
+
+    @Override
+    public String toString() {
+        return "QrTicket{" +
+                "expireSeconds=" + expireSeconds +
+                ", ticket='" + ticket + '\'' +
+                ", url='" + url + '\'' +
+                '}';
     }
 }

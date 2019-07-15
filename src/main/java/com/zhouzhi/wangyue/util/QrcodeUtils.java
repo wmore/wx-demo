@@ -1,6 +1,9 @@
 package com.zhouzhi.wangyue.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zhouzhi.wangyue.model.QrTicket;
+import com.zhouzhi.wangyue.model.WxAccessToken;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
@@ -8,6 +11,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class QrcodeUtils {
     //生成临时二维码ticket scene_id json
@@ -17,34 +22,53 @@ public class QrcodeUtils {
     private static final String QRCODE_TEMPORARY_TICKET_SCENE_STR = "{\"expire_seconds\": SECONDS, \"action_name\": \"QR_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": SCENESTR}}}";
 
     //生成临时二维码ticket 的url
-    private static final String QR_TEMPORARY_TICKET_URL= "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=TOKEN";
-
-
+    private static final String QR_TEMPORARY_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=TOKEN";
 
     //使用scene_id生成临时二维码ticket
     public static QrTicket getTemporaryQRTicketBySceneId(String appId, String appSecert,
-                                                         Long expireSeconds, Long sceneId){
-        AccessToken accessToken = getAccessToken(appId, appSecert);
+                                                         Long expireSeconds, Long sceneId) {
+        WxAccessToken accessToken = getAccessToken(appId, appSecert);
         String url = QR_TEMPORARY_TICKET_URL.replace("TOKEN", accessToken.getAccessToken());
         String postJson = QRCODE_TEMPORARY_TICKET_SCENE_ID.replace("SECONDS", String.valueOf(expireSeconds))
                 .replace("SCENEID", String.valueOf(sceneId));
-        JSONObject res = HttpsUtil.httpRequest(url, "POST", postJson);
+        String resStr = HttpClientUtils.getInstance().jsonPost(url, JSON.parseObject(postJson));
+        resStr = resStr.replace("\\", "");
+        if (resStr.startsWith("\"") && resStr.endsWith("\"")) {
+            resStr = resStr.substring(1, resStr.length() - 1);
+        }
+        JSONObject res = JSON.parseObject(resStr);
         QrTicket qrTicket = new QrTicket();
         qrTicket.setExpireSeconds((Integer) res.get("expire_seconds"));
         qrTicket.setTicket(res.getString("ticket"));
-        qrTicket.setUrl("url");
+        qrTicket.setUrl(res.getString("url"));
+
         return qrTicket;
     }
 
+    private static WxAccessToken getAccessToken(String appId, String appSecert) {
+        String url = "https://api.weixin.qq.com/cgi-bin/token";
 
+        Map<String, String> data = new HashMap<>();
+        data.put("grant_type", "client_credential");
+        data.put("appid", appId);
+        data.put("secret", appSecert);
+        String response = HttpClientUtils.getInstance().getByMap(url, data);
 
+        return WxAccessToken.fromJson(response);
+    }
 
+    public static String genQrCodeImg(String ticket) {
+        String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=TICKET";
+        url = url.replace("TICKET", ticket);
+        return url;
+    }
 
     /**
      * 将二维码和背景图片拼装成新的分享图片
+     *
      * @param shareImageUrl 分享背景图片的地址
-     * @param qrCodeUrl 二维码图片的地址
-     * @param content 文字内容
+     * @param qrCodeUrl     二维码图片的地址
+     * @param content       文字内容
      * @return base64 String 的图片
      */
     public static String getQrImgUrl(String shareImageUrl, String qrCodeUrl, String content) {
@@ -78,7 +102,7 @@ public class QrcodeUtils {
             ByteArrayOutputStream compositeImageByte = new ByteArrayOutputStream();
             ImageIO.write(bgPicture, "png", compositeImageByte);
             //转换成base64串
-            String pngBase64 =  new BASE64Encoder().encodeBuffer(compositeImageByte.toByteArray()).trim();
+            String pngBase64 = new BASE64Encoder().encodeBuffer(compositeImageByte.toByteArray()).trim();
             pngBase64 = "data:image/png;base64," + pngBase64.replaceAll("\n", "").replaceAll("\r", "");
 
             System.out.println("create base64 image success");
@@ -88,4 +112,6 @@ public class QrcodeUtils {
             return null;
         }
     }
+
+
 }

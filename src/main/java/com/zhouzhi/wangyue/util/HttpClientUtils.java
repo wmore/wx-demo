@@ -1,6 +1,9 @@
 package com.zhouzhi.wangyue.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -9,6 +12,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -23,6 +27,9 @@ import java.util.List;
 import java.util.Map;
 
 public class HttpClientUtils {
+
+    public static final String DEFAULT_CONTENT_TYPE = "application/json";
+    private static String DEFAULT_CONTENT_ENCODING = "utf-8";
 
     public static HttpClientUtils getInstance() {
         return new HttpClientUtils();
@@ -118,7 +125,7 @@ public class HttpClientUtils {
             }
 
             // 设置参数到请求对象中
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "utf-8"));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, DEFAULT_CONTENT_ENCODING));
 
             // 设置header信息
             // 指定报文头【Content-type】、【User-Agent】
@@ -130,7 +137,7 @@ public class HttpClientUtils {
             // 获取结果实体
             // 判断网络连接状态码是否正常(0--200都数正常)
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                result = EntityUtils.toString(response.getEntity(), "utf-8");
+                result = EntityUtils.toString(response.getEntity(), DEFAULT_CONTENT_ENCODING);
             }
             // 释放链接
             response.close();
@@ -154,6 +161,33 @@ public class HttpClientUtils {
 
     }
 
+    /*入参说明
+     *
+     * param url 请求地址
+     * param jsonObject	请求的json数据
+     * param encoding	编码格式
+     *
+     * */
+    public static String jsonPost(String url, JSONObject jsonObject){
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost post = new HttpPost(url);
+        String response = null;
+        try {
+        StringEntity s = new StringEntity(jsonObject.toString());
+        s.setContentEncoding(DEFAULT_CONTENT_ENCODING);
+        s.setContentType(DEFAULT_CONTENT_TYPE);//发送json数据需要设置contentType
+        post.setEntity(s);
+        HttpResponse res = httpClient.execute(post);
+        if(res.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+            String result = EntityUtils.toString(res.getEntity());// 返回json格式：
+            response = jsonObject.toJSONString(result);
+        }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return response;
+    }
+
     private String entityToString(HttpEntity entity) throws IOException {
         String result = null;
         if (entity != null) {
@@ -161,7 +195,7 @@ public class HttpClientUtils {
             if (lenth != -1 && lenth < 2048) {
                 result = EntityUtils.toString(entity, "UTF-8");
             } else {
-                InputStreamReader reader1 = new InputStreamReader(entity.getContent(), "UTF-8");
+                InputStreamReader reader1 = new InputStreamReader(entity.getContent(), DEFAULT_CONTENT_ENCODING);
                 CharArrayBuffer buffer = new CharArrayBuffer(2048);
                 char[] tmp = new char[1024];
                 int l;
@@ -173,4 +207,14 @@ public class HttpClientUtils {
         }
         return result;
     }
+
+//    public static void main(String[] args) {
+//        String token = "23_F9ZMPz-ShiZZPdI95Hdwd3OMeQPEGD2sunvku9NUKdm1grrOmjvmyoUa25WHuVtBj72DQnrroqZmkWo0grJnUat5oKvtspD5pc41GlKUl5Vr2JErUJ9QTK8qb0ZkHOkDY-OaK8vcGLyuIM_WIJXgAEAQRF";
+//        String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + token;
+//        String postData = "{\"expire_seconds\": 604800, \"action_name\": \"QR_SCENE\", \"action_info\": {\"scene\": {\"scene_id\": 123}}}";
+//
+//        String response = HttpClientUtils.getInstance().jsonPost(url,  JSON.parseObject(postData));
+//
+//        System.out.println(response);
+//    }
 }

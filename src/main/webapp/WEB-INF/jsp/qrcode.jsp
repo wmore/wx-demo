@@ -11,6 +11,9 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>hello, qrcode!</h1>
+    <h1>1111</h1>
+    <img src="${qr_img_url_1}">
+    <h1>2222</h1>
+    <img src="${qr_img_url_2}">
 </body>
 </html>
