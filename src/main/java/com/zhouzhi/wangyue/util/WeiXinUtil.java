@@ -2,7 +2,9 @@ package com.zhouzhi.wangyue.util;
 
 
 import com.zhouzhi.wangyue.model.TextMessage;
+import com.zhouzhi.wangyue.model.WechatUser;
 import com.zhouzhi.wangyue.model.WeixinMessageInfo;
+import com.zhouzhi.wangyue.service.WechatUserService;
 import com.zhouzhi.wangyue.util.SHA1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +30,9 @@ public class WeiXinUtil {
 
     @Autowired
     private WeixinMessageModelUtil weixinMessageModelUtil;
+
+    @Autowired
+    private WechatUserService wechatUserService;
 
     /**
      * @param signature 微信加密签名
@@ -142,6 +147,8 @@ public class WeiXinUtil {
                         respContent = "成功关注，并且您已扫描带参数二维码！ sceneId : " + eventKey.substring(8, eventKey.length());
                         textMessage.setContent(respContent);
                         respMessage = weixinMessageUtil.textMessageToXml(textMessage);
+
+
                     }
                 }
                 // 取消关注
@@ -187,4 +194,7 @@ public class WeiXinUtil {
     }
 
 
+    private void saveUser(WechatUser wechatUser) {
+        wechatUserService.save(wechatUser);
+    }
 }

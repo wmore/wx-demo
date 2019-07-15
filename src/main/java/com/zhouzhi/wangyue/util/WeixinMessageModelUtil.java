@@ -5,12 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * <p>Company: B505信息技术研究所 </p>
  *
  * @Description: 封装微信回复消息，各种回复消息对应不同的方法
- * @Create Date: 2017年10月23日上午11:33:36
- * @Version: V1.00
- * @Author:来日可期
  */
 @Component
 public class WeixinMessageModelUtil {
