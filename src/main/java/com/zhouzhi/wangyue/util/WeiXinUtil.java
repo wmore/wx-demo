@@ -34,6 +34,9 @@ public class WeiXinUtil {
     @Autowired
     private WechatUserService wechatUserService;
 
+    @Autowired
+    private UserUtils userUtils;
+
     /**
      * @param signature 微信加密签名
      * @param timestamp 时间戳
@@ -148,7 +151,7 @@ public class WeiXinUtil {
                         textMessage.setContent(respContent);
                         respMessage = weixinMessageUtil.textMessageToXml(textMessage);
 
-
+                        getAndSaveUserInfo(map);
                     }
                 }
                 // 取消关注
@@ -193,8 +196,10 @@ public class WeiXinUtil {
         return respMessage;
     }
 
-
-    private void saveUser(WechatUser wechatUser) {
-        wechatUserService.save(wechatUser);
+    private void getAndSaveUserInfo(Map<String, String> map) {
+        WechatUser user = userUtils.getWechatUserInfo(map.get("FromUserName"));
+        System.out.println(user);
+        wechatUserService.save(user);
     }
+
 }

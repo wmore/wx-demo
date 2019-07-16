@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhouzhi.wangyue.model.QrTicket;
 import com.zhouzhi.wangyue.model.WxAccessToken;
+import org.springframework.stereotype.Component;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
@@ -11,10 +12,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
-public class QrcodeUtils {
+@Component
+public class QrcodeUtils extends BaseUtil{
     //生成临时二维码ticket scene_id json
     private static final String QRCODE_TEMPORARY_TICKET_SCENE_ID = "{\"expire_seconds\": SECONDS, \"action_name\": \"QR_SCENE\", \"action_info\": {\"scene\": {\"scene_id\": SCENEID}}}";
 
@@ -25,7 +25,7 @@ public class QrcodeUtils {
     private static final String QR_TEMPORARY_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=TOKEN";
 
     //使用scene_id生成临时二维码ticket
-    public static QrTicket getTemporaryQRTicketBySceneId(String appId, String appSecert,
+    public QrTicket getTemporaryQRTicketBySceneId(String appId, String appSecert,
                                                          Long expireSeconds, Long sceneId) {
         WxAccessToken accessToken = getAccessToken(appId, appSecert);
         String url = QR_TEMPORARY_TICKET_URL.replace("TOKEN", accessToken.getAccessToken());
@@ -45,19 +45,8 @@ public class QrcodeUtils {
         return qrTicket;
     }
 
-    private static WxAccessToken getAccessToken(String appId, String appSecert) {
-        String url = "https://api.weixin.qq.com/cgi-bin/token";
 
-        Map<String, String> data = new HashMap<>();
-        data.put("grant_type", "client_credential");
-        data.put("appid", appId);
-        data.put("secret", appSecert);
-        String response = HttpClientUtils.getInstance().getByMap(url, data);
-
-        return WxAccessToken.fromJson(response);
-    }
-
-    public static String genQrCodeImg(String ticket) {
+    public String genQrCodeImg(String ticket) {
         String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=TICKET";
         url = url.replace("TICKET", ticket);
         return url;
@@ -71,7 +60,7 @@ public class QrcodeUtils {
      * @param content       文字内容
      * @return base64 String 的图片
      */
-    public static String getQrImgUrl(String shareImageUrl, String qrCodeUrl, String content) {
+    public String getQrImgUrl(String shareImageUrl, String qrCodeUrl, String content) {
         try {
             // 读取背景图片
             BufferedImage bgImage = ImageIO.read(new URL(shareImageUrl));

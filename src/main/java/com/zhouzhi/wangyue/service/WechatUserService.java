@@ -2,19 +2,24 @@ package com.zhouzhi.wangyue.service;
 
 import com.zhouzhi.wangyue.dao.WechatUserRepository;
 import com.zhouzhi.wangyue.model.WechatUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class WechatUserService {
-    @Resource
+    @Autowired
     private WechatUserRepository wechatUserRepository;
 
     @Transactional
     public void save(WechatUser wechatUser) {
+        WechatUser user = wechatUserRepository.queryByOpenId(wechatUser.getOpenId());
+        if (user != null){
+            System.out.println(wechatUser.getNickName()+" ; " +wechatUser.getOpenId() +" ; 以前已经保存在数据库里啦。" );
+            return ;
+        }
         wechatUserRepository.save(wechatUser);
     }
 
