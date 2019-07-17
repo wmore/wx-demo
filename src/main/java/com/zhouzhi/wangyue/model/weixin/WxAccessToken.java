@@ -1,13 +1,13 @@
-package com.zhouzhi.wangyue.model;
+package com.zhouzhi.wangyue.model.weixin;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.zhouzhi.wangyue.model.db.AccessToken;
 
 import java.io.Serializable;
 
 public class WxAccessToken implements Serializable {
 
-    private static final long serialVersionUID = -6962050268850188578L;
     private String accessToken;
 
     private int expiresIn = -1;
@@ -32,9 +32,15 @@ public class WxAccessToken implements Serializable {
     public WxAccessToken() {
     }
 
+
     public WxAccessToken(String accessToken, int expiresIn) {
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
+    }
+
+    public WxAccessToken(AccessToken accessToken) {
+        this.accessToken = accessToken.getAccessToken();
+        this.expiresIn = accessToken.getExpiresIn();
     }
 
     public static WxAccessToken fromJson(String json) {

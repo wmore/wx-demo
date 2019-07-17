@@ -1,11 +1,10 @@
 package com.zhouzhi.wangyue.util;
 
 
-import com.zhouzhi.wangyue.model.TextMessage;
-import com.zhouzhi.wangyue.model.WechatUser;
-import com.zhouzhi.wangyue.model.WeixinMessageInfo;
+import com.zhouzhi.wangyue.model.weixin.TextMessage;
+import com.zhouzhi.wangyue.model.db.WechatUser;
+import com.zhouzhi.wangyue.model.weixin.WeixinMessageInfo;
 import com.zhouzhi.wangyue.service.WechatUserService;
-import com.zhouzhi.wangyue.util.SHA1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

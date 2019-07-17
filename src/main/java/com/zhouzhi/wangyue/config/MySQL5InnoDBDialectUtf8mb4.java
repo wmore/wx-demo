@@ -1,4 +1,4 @@
-package com.zhouzhi.wangyue.dbconfig;
+package com.zhouzhi.wangyue.config;
 
 import org.hibernate.dialect.MySQL5InnoDBDialect;
 

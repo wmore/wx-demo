@@ -12,17 +12,24 @@
     <meta charset="utf-8"/>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"> </script>
     <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js "> </script>
 </head>
 
 <body>
+    <div class="lbox_close wxapi_form">
+        <h3>微信扫一扫</h3>
+        <button id="scanQRCode">扫码</button>
+        <input id="codeValue">
+    </div>
 </body>
+
 <script type="text/javascript">
     $(function() {
         //需要把当前页面的url地址传到后台，生成签名信息时需要使用到
         var tokenUrl= location.href;
         //获取签名的后台接口
-        var _getWechatSignUrl = '/orange/jsapi/getSign';
+        var _getWechatSignUrl = '/wx-demo/get_sign';
 
         $(document).ready(function(){
             //获取签名
@@ -49,6 +56,11 @@
                 jsApiList: ['checkJsApi','scanQRCode']
                 // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
+            wx.error(function(res){
+                // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+                console.log(res.toString());
+                alert("error：" + res);
+            });
         }
 
         $("#scanQRCode").click(function(event){
@@ -60,10 +72,11 @@
                     console.log("调用扫描成功",res);
                     var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
                     $("#codeValue").val(result);//显示结果
-                    alert("扫码结果为：" + result);
+                    // alert("扫码结果为：" + result);
                 },
                 error:function(res){
                     console.log(res)
+                    // alert("error：" + res);
                 }
             });
         })
@@ -72,9 +85,5 @@
 </script>
 
 
-    <div class="lbox_close wxapi_form">
-        <h3>微信扫一扫</h3>
-        <input id="codeValue">
-        <button id="scanQRCode">扫码</button>
-    </div>
+
 </html>

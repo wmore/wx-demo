@@ -1,4 +1,4 @@
-package com.zhouzhi.wangyue.model;
+package com.zhouzhi.wangyue.model.weixin;
 
 
 import org.springframework.stereotype.Component;

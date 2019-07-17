@@ -1,6 +1,6 @@
 package com.zhouzhi.wangyue.dao;
 
-import com.zhouzhi.wangyue.model.WechatUser;
+import com.zhouzhi.wangyue.model.db.WechatUser;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

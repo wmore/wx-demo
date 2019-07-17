@@ -1,7 +1,7 @@
 package com.zhouzhi.wangyue.util;
 
 import com.thoughtworks.xstream.XStream;
-import com.zhouzhi.wangyue.model.BaseMessage;
+import com.zhouzhi.wangyue.model.weixin.BaseMessage;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;

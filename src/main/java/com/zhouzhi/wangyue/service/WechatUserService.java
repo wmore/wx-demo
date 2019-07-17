@@ -1,7 +1,7 @@
 package com.zhouzhi.wangyue.service;
 
 import com.zhouzhi.wangyue.dao.WechatUserRepository;
-import com.zhouzhi.wangyue.model.WechatUser;
+import com.zhouzhi.wangyue.model.db.WechatUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +31,11 @@ public class WechatUserService {
     @Transactional
     public void removeAll() {
         wechatUserRepository.deleteAll();
+    }
+
+
+    public List<WechatUser> getAll(){
+        return (List<WechatUser>) wechatUserRepository.findAll();
     }
 
 

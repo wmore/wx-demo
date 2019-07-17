@@ -1,4 +1,4 @@
-package com.zhouzhi.wangyue.model;
+package com.zhouzhi.wangyue.model.weixin;
 
 
 public class TextMessage extends BaseMessage {

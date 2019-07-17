@@ -1,6 +1,6 @@
 package com.zhouzhi.wangyue.util;
 
-import com.zhouzhi.wangyue.model.WeixinMessageInfo;
+import com.zhouzhi.wangyue.model.weixin.WeixinMessageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

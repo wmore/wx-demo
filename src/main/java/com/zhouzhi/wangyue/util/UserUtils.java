@@ -1,7 +1,7 @@
 package com.zhouzhi.wangyue.util;
 
-import com.zhouzhi.wangyue.model.WechatUser;
-import com.zhouzhi.wangyue.model.WxAccessToken;
+import com.zhouzhi.wangyue.model.db.WechatUser;
+import com.zhouzhi.wangyue.model.weixin.WxAccessToken;
 import com.zhouzhi.wangyue.service.WechatUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

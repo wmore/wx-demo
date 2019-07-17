@@ -1,4 +1,4 @@
-package com.zhouzhi.wangyue.model;
+package com.zhouzhi.wangyue.model.weixin;
 
 /**
  * @Description: 响应消息基类（公众账号→普通用户）

@@ -1,4 +1,4 @@
-package com.zhouzhi.wangyue.model;
+package com.zhouzhi.wangyue.model.db;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;

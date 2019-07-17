@@ -1,6 +1,6 @@
 package com.zhouzhi.wangyue.controller.jsp;
 
-import com.zhouzhi.wangyue.model.QrTicket;
+import com.zhouzhi.wangyue.model.weixin.QrTicket;
 import com.zhouzhi.wangyue.util.QrcodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

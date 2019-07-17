@@ -1,6 +1,5 @@
 package com.zhouzhi.wangyue.util;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -168,20 +167,27 @@ public class HttpClientUtils {
      * param encoding	编码格式
      *
      * */
-    public static String jsonPost(String url, JSONObject jsonObject){
+    public static String jsonPost(String url, JSONObject jsonObject) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost post = new HttpPost(url);
         String response = null;
         try {
-        StringEntity s = new StringEntity(jsonObject.toString());
-        s.setContentEncoding(DEFAULT_CONTENT_ENCODING);
-        s.setContentType(DEFAULT_CONTENT_TYPE);//发送json数据需要设置contentType
-        post.setEntity(s);
-        HttpResponse res = httpClient.execute(post);
-        if(res.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
-            String result = EntityUtils.toString(res.getEntity());// 返回json格式：
-            response = jsonObject.toJSONString(result);
-        }
+            StringEntity s = new StringEntity(jsonObject.toString(),"utf-8");
+            s.setContentEncoding(DEFAULT_CONTENT_ENCODING);
+            s.setContentType(DEFAULT_CONTENT_TYPE);//发送json数据需要设置contentType
+
+//            // 设置header信息
+//            // 指定报文头【Content-type】、【User-Agent】
+//            post.setHeader("Content-type", "application/json");
+//            post.setHeader("charset", "UTF-8");
+
+            post.setEntity(s);
+
+            HttpResponse res = httpClient.execute(post);
+            if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                String result = EntityUtils.toString(res.getEntity());// 返回json格式：
+                response = jsonObject.toJSONString(result);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
