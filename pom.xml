@@ -130,6 +130,14 @@
 <!--            <artifactId>spring-boot-autoconfigure</artifactId>-->
 <!--            <version>1.5.21.RELEASE</version>-->
 <!--        </dependency>-->
+
+        <!-- https://github.com/socketio/engine.io-client-java -->
+        <dependency>
+            <groupId>io.socket</groupId>
+            <artifactId>socket.io-client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
