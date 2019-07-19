@@ -1,6 +1,6 @@
 package com.zhouzhi.wangyue.controller.rest;
 
-import com.zhouzhi.wangyue.websocket.Test;
+import com.zhouzhi.wangyue.websocket.WebSocketClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableAutoConfiguration
 public class HelloRestController {
     @Autowired
-    Test test ;
+    WebSocketClient test ;
 
     @RequestMapping("/hello")
     public String hello () {
-        test.connect();
         return "Hello world idea!";
     }
 

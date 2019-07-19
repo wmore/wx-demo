@@ -120,16 +120,16 @@
             <version>1.4.9</version>
         </dependency>
 
-  <!--      <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
--->
+        <!--      <dependency>
+                  <groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-starter-data-redis</artifactId>
+              </dependency>
+      -->
         <!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-autoconfigure</artifactId>-->
-<!--            <version>1.5.21.RELEASE</version>-->
-<!--        </dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-autoconfigure</artifactId>-->
+        <!--            <version>1.5.21.RELEASE</version>-->
+        <!--        </dependency>-->
 
         <!-- https://github.com/socketio/engine.io-client-java -->
         <dependency>
@@ -137,7 +137,11 @@
             <artifactId>socket.io-client</artifactId>
             <version>1.0.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.corundumstudio.socketio</groupId>
+            <artifactId>netty-socketio</artifactId>
+            <version>1.7.16</version>
+        </dependency>
     </dependencies>
 
     <build>
